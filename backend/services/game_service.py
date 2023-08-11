@@ -21,7 +21,7 @@ def get_game_host(game_id):
     host = Player.get_player(host_id).to_dict()
     return host
 
-def create_new_game(game_name, num_rounds, deadline, host_id, tournament_flag, buy_in):
+def create_new_game(game_name, num_rounds, deadline, tournament_flag, buy_in,  host_id):
     try:
         # Create a new game
         game = Game(game_name=game_name, num_rounds=num_rounds, deadline=deadline,

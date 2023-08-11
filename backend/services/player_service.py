@@ -13,8 +13,8 @@ def assign_player_to_game(data):
 def retrieve_player_games(player_id):
     return Player.get_player_games(player_id)
 
-def add_players_to_game(emails, game_id):
+def add_players_to_game(game_id, emails):
     try:
         return Player.add_players_to_game(emails, game_id)
     except Exception as e:
-        return str(e), 400
+        raise e

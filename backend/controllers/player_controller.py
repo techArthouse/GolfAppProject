@@ -1,6 +1,6 @@
 # player_controller.py
 from flask import Blueprint, request, jsonify
-from services.player_service import create_player, retrieve_player
+from services.player_service import create_player, retrieve_player, add_players_to_game
 
 player_bp = Blueprint('player', __name__)
 
@@ -28,3 +28,14 @@ def post_game_player():
 def get_player_game_info(player_id):
     games = get_player_games(player_id)
     return jsonify(games), 200
+
+@player_bp.route('/gameplayer/multiple', methods=['POST'])
+def invite_players_to_game():
+    try:
+        data = request.get_json()
+        game_id = data.get('game_id')
+        emails = data.get('emails')
+        player_dicts = add_players_to_game(game_id, emails)
+        return jsonify({'invited': player_dicts}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400

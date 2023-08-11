@@ -68,7 +68,7 @@ class Player(Base):
 
     		# Add all players to the game
     		GamePlayer.add_players_to_game(game_id, players)
-    		return 'Players successfully added to the game', 200
+    		return [player.to_dict() for player in players]
     	except Exception as e:
     		session.rollback()  # rollback in case of exceptions
     		raise e  # re-raise the exception

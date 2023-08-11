@@ -24,5 +24,14 @@ class GamePlayer(Base):
 
     @classmethod
     def add_players_to_game(cls, game_id, players):
-    	for player in players:
-    		cls.add_player_to_game(game_id, player.player_id)
+    	session = get_db_session()
+    	try:
+    		for player in players:
+    			gp = cls(game_id=game_id, player_id=player.player_id)
+    			session.add(gp)
+    		session.commit()  # commit transaction after all players are added
+    	except Exception as e:
+    		session.rollback()  # rollback in case of exceptions
+    		raise e  # re-raise the exception
+    	finally:
+    		session.close()  # close session
